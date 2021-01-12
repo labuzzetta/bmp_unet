@@ -72,7 +72,6 @@ def train_generator():
                 mask[mask <= 128] = 0
                 mask[mask > 128] = 1 
 
-                No Augmentation for baseline model
                 img2 = randomHueSaturationValue(img2,
                                                hue_shift_limit=(-30, 30),
                                                sat_shift_limit=(-5, 5),
