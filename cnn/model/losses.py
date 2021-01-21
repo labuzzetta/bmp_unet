@@ -14,6 +14,7 @@ def auc(y_true, y_pred):
     return auc
 
 #Batch-wise mean of recall
+#Values are rounded to 0 or 1 to find true positives
 def recall_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
     possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
@@ -21,6 +22,7 @@ def recall_m(y_true, y_pred):
     return recall
 
 #Batch-wise mean of precision
+#Values are rounded to 0 or 1 to find true positives and predicted positives
 def precision_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
     predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
@@ -34,6 +36,7 @@ def image_dice_coeff(y_true, y_pred, smooth=1):
     union = K.sum(y_true, axis=[1,2,3]) + K.sum(y_pred, axis=[1,2,3])
     return K.mean( (2. * intersection + smooth) / (union + smooth), axis=0)
 
+#Values are rounded to 0 or 1 to formally calculate matrix of true positives, false positives, ...
 def image_dice_coeff_round(y_true, y_pred, smooth=1):
     intersection = K.sum(y_true * tf.cast(K.greater(y_pred, 0.5),tf.float32), axis=[1,2,3])
     union = K.sum(y_true, axis=[1,2,3]) + K.sum(tf.cast(K.greater(y_pred, 0.5),tf.float32), axis=[1,2,3])
